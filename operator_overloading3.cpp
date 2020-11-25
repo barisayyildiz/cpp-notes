@@ -5,82 +5,66 @@ using namespace std;
 class myString
 {
 private:
-	int length;
-	char *arr = nullptr;
-	
-	void clearString()
-	{
-		if(arr != nullptr)
-		{
-			delete[] arr;
-		}
+  int length;
+  char *arr;
+  
+  void clearString()
+  {
+    if(arr != nullptr)
+    {
+      delete[] arr;
+    }
 
-		length = 0; 
-	}
+    length = 0; 
+  }
 
 
 public:
-	myString()
-	{
-		length = 0;
-	}
+  myString() : length(0), arr(nullptr)
+  {/*left empty*/}
 
-	myString(const char string[])
-	{
-		clearString();
 
-		while(string[length++] != '\0')
-		{/*left empty*/}
+  myString operator = (const char string[])
+  {
+    clearString();
+    
+    while(string[length++] != '\0')
+    {/*left empty*/}
 
-		arr = new char[length];
+    arr = new char[length];
 
-		for(int i=0; i<length; i++)
-		{
-			arr[i] = string[i];
-		}
+    for(int i=0; i<length; i++)
+    {
+      arr[i] = string[i];
+    }
 
-	}
+    return *this;
 
-	myString operator = (const char string[])
-	{
-		clearString();
-		
-		while(string[length++] != '\0')
-		{/*left empty*/}
+  }
 
-		arr = new char[length];
+  // global function
+  // that can access private members
+  friend ostream& operator << (ostream &outputStream, myString &obj)
+  {
+    for(int i=0; i< obj.length; i++)
+    {
+      outputStream << obj.arr[i];
+    }
 
-		for(int i=0; i<length; i++)
-		{
-			arr[i] = string[i];
-		}
-
-		return *this;
-
-	}
-
-	// global function
-	// that can access private members
-	friend ostream& operator << (ostream &outputStream, myString &obj)
-	{
-		for(int i=0; i< obj.length; i++)
-		{
-			outputStream << obj.arr[i];
-		}
-
-		return outputStream;
-	}
+    return outputStream;
+  }
 
 };
 
 
 int main()
 {
+  myString s1;
+  s1 = "hello world";
 
-	myString s1 = "hello world";
-
-	cout << s1 << endl;
+  cout << s1 << endl;
 
 
-	return 0;
+  return 0;
 }
+
